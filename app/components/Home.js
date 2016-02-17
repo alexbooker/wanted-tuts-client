@@ -6,17 +6,27 @@ export default class Home extends React.Component {
   constructor() {
     super();
     this.state = {
-      tutRequests: []
+      tutRequests: [],
+      pageNum: 1,
+      moreTutRequests: false,
+      fetchingTutRequests: true
     };
   }
 
-  componentDidMount() {
-    const tutRequestsUrl = `https://wanted-tuts.com/api/tutorial-requests?page=1`;
+  componentWillMount() {
+    this.fetchTutRequests();
+  }
+
+  fetchTutRequests() {
+    const tutRequestsUrl = `https://wanted-tuts.com/api/tutorial-requests?page=${this.state.pageNum}`;
     axios
       .get(tutRequestsUrl)
       .then(function(response) {
         this.setState({
-          tutRequests: this.state.tutRequests.concat(response.data)
+          tutRequests: this.state.tutRequests.concat(response.data),
+          pageNum: this.state.pageNum + 1,
+          moreTutRequests: response.data.length < 10,
+          fetchingTutRequests: false
         });
       }.bind(this));
   }
@@ -25,7 +35,9 @@ export default class Home extends React.Component {
     return (
       <div>
         <h1>Home</h1>
-        <TutRequestsList {...this.state}/>
+        <TutRequestsList
+          {...this.state}
+          onFetchMoreClicked={() => this.fetchTutRequests()}/>
       </div>
     );
   }
