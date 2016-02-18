@@ -1,24 +1,34 @@
 import React from 'react';
 import TutRequestsList from './TutRequestList.js';
 import axios from 'axios';
+import {IndexLink, Link} from 'react-router';
 
 export default class Home extends React.Component {
   constructor() {
     super();
-    this.state = {
+    this.initialState = {
       tutRequests: [],
       pageNum: 1,
       moreTutRequests: false,
       fetchingTutRequests: true
     };
+    this.state = {...this.initialState};
   }
 
   componentWillMount() {
     this.fetchTutRequests();
   }
 
+  componentDidUpdate(prevProps) {
+    const routeUpdated = this.props.route.path !== prevProps.route.path;
+    if (routeUpdated) {
+      this.setState(this.initialState, () => this.fetchTutRequests());
+    }
+  }
+
   fetchTutRequests() {
-    const tutRequestsUrl = `https://wanted-tuts.com/api/tutorial-requests?page=${this.state.pageNum}`;
+    const sortBy = this.props.route.path === '/popular' ? 'score' : 'latest';
+    const tutRequestsUrl = `https://wanted-tuts.com/api/tutorial-requests?page=${this.state.pageNum}&sortBy=${sortBy}`;
     axios
       .get(tutRequestsUrl)
       .then(function(response) {
