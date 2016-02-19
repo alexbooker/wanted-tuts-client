@@ -47,7 +47,7 @@ export default class Home extends React.Component {
         <h1>Home</h1>
         <TutRequestsList
           {...this.state}
-          onFetchMoreClicked={() => this.fetchTutRequests()}/>
+          onFetchMoreClicked={this.fetchTutRequests.bind(this)}/>
       </div>
     );
   }
