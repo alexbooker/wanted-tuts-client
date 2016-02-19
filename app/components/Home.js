@@ -1,7 +1,6 @@
 import React from 'react';
 import TutRequestsList from './TutRequestList.js';
 import axios from 'axios';
-import {IndexLink, Link} from 'react-router';
 
 export default class Home extends React.Component {
   constructor() {
@@ -20,14 +19,14 @@ export default class Home extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const routeUpdated = this.props.route.path !== prevProps.route.path;
-    if (routeUpdated) {
+    const sortUpdated = this.props.params !== prevProps.params;
+    if (sortUpdated) {
       this.setState(this.initialState, () => this.fetchTutRequests());
     }
   }
 
   fetchTutRequests() {
-    const sortBy = this.props.route.path === '/popular' ? 'score' : 'latest';
+    const sortBy = this.props.params.sort === 'popular' ? 'score' : 'latest';
     const tutRequestsUrl = `https://wanted-tuts.com/api/tutorial-requests?page=${this.state.pageNum}&sortBy=${sortBy}`;
     axios
       .get(tutRequestsUrl)

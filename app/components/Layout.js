@@ -4,10 +4,10 @@ const SiteNav = () => (
   <nav>
     <ul>
       <li>
-        <IndexLink to="/">Home</IndexLink>
+        <Link activeStyle={{color: 'red'}} to="/">Home</Link>
       </li>
       <li>
-        <Link to="/about">About</Link>
+        <Link activeStyle={{color: 'red'}} to="/about">About</Link>
       </li>
     </ul>
   </nav>

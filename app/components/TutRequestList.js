@@ -4,8 +4,8 @@ import TutRequestListItem from './TutRequestListItem.js';
 function SortOptions() {
   return (
     <ul>
-      <li><IndexLink to="/">Latest</IndexLink></li>
-      <li><Link to="/popular">Popular</Link></li>
+      <li><IndexLink activeStyle={{color: 'red'}} to="/">Latest</IndexLink></li>
+      <li><Link activeStyle={{color: 'red'}} to="/popular">Popular</Link></li>
     </ul>
   );
 }
