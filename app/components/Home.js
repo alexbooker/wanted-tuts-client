@@ -1,6 +1,6 @@
 import React from 'react';
 import TutRequestsList from './TutRequestList.js';
-import axios from 'axios';
+import tutRequestSource from '../sources/tutRequestSource';
 
 export default class Home extends React.Component {
   constructor() {
@@ -26,10 +26,9 @@ export default class Home extends React.Component {
   }
 
   fetchTutRequests() {
-    const sortBy = this.props.params.sort === 'popular' ? 'score' : 'latest';
-    const tutRequestsUrl = `https://wanted-tuts.com/api/tutorial-requests?page=${this.state.pageNum}&sortBy=${sortBy}`;
-    axios
-      .get(tutRequestsUrl)
+    const sortBy = this.props.location.pathname === '/popular' ? 'score' : 'latest';
+    tutRequestSource
+      .getTutRequests(sortBy, this.state.pageNum)
       .then(function(response) {
         this.setState({
           tutRequests: this.state.tutRequests.concat(response.data),
