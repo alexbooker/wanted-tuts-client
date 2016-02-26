@@ -29,11 +29,11 @@ export default class Home extends React.Component {
     const sortBy = this.props.location.pathname === '/popular' ? 'score' : 'latest';
     tutRequestSource
       .getTutRequests(sortBy, this.state.pageNum)
-      .then(function(response) {
+      .then(function(data) {
         this.setState({
-          tutRequests: this.state.tutRequests.concat(response.data),
+          tutRequests: this.state.tutRequests.concat(data),
           pageNum: this.state.pageNum + 1,
-          moreTutRequests: response.data.length < 10,
+          moreTutRequests: data.length < 10,
           fetchingTutRequests: false
         });
       }.bind(this));
